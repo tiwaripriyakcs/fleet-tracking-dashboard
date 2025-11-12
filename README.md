@@ -57,3 +57,22 @@ Angular CLI does not come with an end-to-end testing framework by default. You c
 ## Additional Resources
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+
+
+### Dashboard Preview
+![Dashboard Screenshot](../fleet-dashboard/public/image/Screenshot%20(238).png)
+![Dashboard Screenshot](../fleet-dashboard/public/image/Screenshot%20(239).png)
+
+<!-- Clone the Repository -->
+
+
+### Clone the Repository
+
+git clone https://github.com/tiwaripriyakcs/fleet-tracking-dashboard.git
+cd fleet-dashboard
+
+### Install Dependencies
+npm i or npm install
+
+### Run the Development Server
+npm start
