@@ -4,10 +4,10 @@ import { App } from './app/app';
 import { appConfig } from './app/app.config';
 
 bootstrapApplication(App, {
-  ...appConfig,                   // spread your existing app config
+  ...appConfig,                   
   providers: [
-    ...(appConfig.providers || []),  // keep existing providers
-    provideHttpClient()              // ✅ add HttpClient provider here
+    ...(appConfig.providers || []),  
+    provideHttpClient()              
   ]
 })
 .catch((err) => console.error(err));

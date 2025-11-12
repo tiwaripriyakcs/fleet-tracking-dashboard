@@ -3,7 +3,7 @@ import { FleetDataService } from '../services/fleet-data.service';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-const STORAGE_KEY = 'fleetTrackingState'; // Key for localStorage
+const STORAGE_KEY = 'fleetTrackingState'; 
 
 @Component({
   selector: 'app-fleet-tracking',
@@ -17,8 +17,6 @@ export class FleetTracking implements OnInit, OnDestroy {
   events: any[] = [];
   simulationSpeed = 1;
   isPlaying = false;
-  
-  // Initial time set to the first event in the JSON
   currentTime = new Date('2025-11-03T10:00:00.000Z'); 
   
   private intervalRef: any;
@@ -28,9 +26,7 @@ export class FleetTracking implements OnInit, OnDestroy {
   constructor(private fleetService: FleetDataService) {}
 
   ngOnInit(): void {
-    // 1. Attempt to load saved state first
     if (!this.loadState()) {
-      // 2. If no saved state, load initial data
       this.fleetService.getInitialData().subscribe(data => {
         this.trips = data.trips.map((t: any) => ({ ...t }));
         
@@ -43,8 +39,6 @@ export class FleetTracking implements OnInit, OnDestroy {
         
         this.events = [];
         this.nextEventIndex = 0;
-        
-        // Load initial events up to the start time (first event)
         this.processEventsUpToTime(this.currentTime);
       });
     }
@@ -52,11 +46,9 @@ export class FleetTracking implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.stopInterval();
-    // Save state one last time when leaving the component
     this.saveState(); 
   }
 
-  // --- STATE PERSISTENCE LOGIC ---
   private saveState() {
     try {
       const state = {
@@ -78,17 +70,16 @@ export class FleetTracking implements OnInit, OnDestroy {
       if (savedState) {
         const state = JSON.parse(savedState);
         
-        // Check if all necessary data exists (safety check)
         if (state.trips && state.allEvents) {
           this.trips = state.trips;
           this.events = state.events;
           this.currentTime = new Date(state.currentTime);
           this.nextEventIndex = state.nextEventIndex;
           this.allEvents = state.allEvents;
-          return true; // State loaded successfully
+          return true; 
         }
       }
-      return false; // No state found or incomplete state
+      return false; 
     } catch (e) {
       console.error("Could not load state from local storage", e);
       return false;
@@ -98,7 +89,7 @@ export class FleetTracking implements OnInit, OnDestroy {
   private clearState() {
      localStorage.removeItem(STORAGE_KEY);
   }
-  // -------------------------------
+
 
 
   togglePlayPause() {
@@ -117,23 +108,21 @@ export class FleetTracking implements OnInit, OnDestroy {
         this.isPlaying = false;
       }
       
-      // Save state after every step
       this.saveState(); 
-    }, 1000); // Update every 1 second
+    }, 1000); 
   }
 
   stopInterval() {
     if (this.intervalRef) { 
       clearInterval(this.intervalRef); 
       this.intervalRef = null; 
-      // Save state when paused
       this.saveState(); 
     }
   }
 
   resetSimulation() {
     this.stopInterval();
-    this.clearState(); // Clear stored state on reset
+    this.clearState(); 
     this.simulationSpeed = 1;
     this.isPlaying = false;
     
@@ -149,13 +138,10 @@ export class FleetTracking implements OnInit, OnDestroy {
         this.currentTime = new Date('2025-11-03T10:00:00.000Z');
       }
       this.processEventsUpToTime(this.currentTime);
-      // Save initial state after reset
       this.saveState(); 
     });
   }
 
-  // processEventsUpToTime and applyEvent remain the same...
-  // ... (omitted for brevity, assume they are the same as before)
   
   processEventsUpToTime(time: Date) {
     let newEvents: any[] = [];
@@ -244,8 +230,7 @@ export class FleetTracking implements OnInit, OnDestroy {
     });
   }
   
-  // Helper Functions (getStatusColor, getAlertColor, fleetMetrics) remain the same...
-  // ... (omitted for brevity, assume they are the same as before)
+
   
   getStatusColor(status: string) {
     switch (status) {
